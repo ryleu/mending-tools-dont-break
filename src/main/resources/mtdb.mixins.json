@@ -4,6 +4,7 @@
   "package": "me.ryleu.mtdb.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "ItemStackMixin",
     "PlayerEntityMixin"
   ],
   "injectors": {
