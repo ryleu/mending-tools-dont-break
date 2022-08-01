@@ -1,9 +1,8 @@
-# Fabric Example Mod
+# Mending Tools Don't Break
 
-## Setup
+Make it so mending tools don't break. This mod is in beta. Right now,
+it only works when you try to break things, which can cause issues if
+you attack with your tool or use a right click ability (like with
+shears or a hoe).
 
-For setup instructions please see the [fabric wiki page](https://fabricmc.net/wiki/tutorial:setup) that relates to the IDE that you are using.
-
-## License
-
-This template is available under the CC0 license. Feel free to learn from it and incorporate it in your own projects.
+Please leave any issues on the issue tracker.
