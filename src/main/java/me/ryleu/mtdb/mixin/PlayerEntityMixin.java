@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import me.ryleu.mtdb.MTDB;
 
 @Mixin(PlayerEntity.class)
 public abstract class PlayerEntityMixin {
@@ -26,7 +27,7 @@ public abstract class PlayerEntityMixin {
 		ItemStack itemStack = this.getEquippedStack(EquipmentSlot.MAINHAND);
 		NbtList enchantments = itemStack.getEnchantments();
 
-		if (!itemStack.isEmpty() && itemStack.getMaxDamage() - itemStack.getDamage() <= 2) {
+		if (MTDB.shouldBlock(itemStack)) {
 			for (NbtElement enchantment : enchantments) {
 				if (enchantment.asString().contains("minecraft:mending")) {
 					cir.setReturnValue(true);
@@ -40,7 +41,7 @@ public abstract class PlayerEntityMixin {
 		ItemStack itemStack = this.getEquippedStack(EquipmentSlot.MAINHAND);
 		NbtList enchantments = itemStack.getEnchantments();
 
-		if (!itemStack.isEmpty() && itemStack.getMaxDamage() - itemStack.getDamage() <= 2) {
+		if (MTDB.shouldBlock(itemStack)) {
 			for (NbtElement enchantment : enchantments) {
 				if (enchantment.asString().contains("minecraft:mending")) {
 					ci.cancel();

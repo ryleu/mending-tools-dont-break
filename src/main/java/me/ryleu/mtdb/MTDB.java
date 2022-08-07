@@ -14,4 +14,8 @@ public class MTDB implements ModInitializer {
 	public void onInitialize() {
 		LOGGER.warn("MTDB is still in beta! Issues may occur.");
 	}
+
+	static boolean shouldBlock(ItemStack itemStack) {
+		return !itemStack.isEmpty() && itemStack.getMaxDamage() - itemStack.getDamage() <= Math.max(2F, itemStack.getMaxDamage() / 100F);
+	}
 }
