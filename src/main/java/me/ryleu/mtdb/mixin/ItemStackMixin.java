@@ -52,7 +52,7 @@ public abstract class ItemStackMixin {
     private boolean cancelMissingMending(CallbackInfoReturnable cir) {
         NbtList enchantments = this.getEnchantments();
 
-        if (MTDB.shouldBlock(this as ItemStack)) {
+        if (MTDB.shouldBlock((ItemStack) this)) {
             for (NbtElement enchantment : enchantments) {
                 if (enchantment.asString().contains("minecraft:mending")) {
                     cir.cancel();
