@@ -1,21 +1,29 @@
 package me.ryleu.mtdb;
 
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantments;
+import net.minecraft.item.ItemStack;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class MTDB implements ModInitializer {
-	// This logger is used to write text to the console and the log file.
-	// It is considered best practice to use your mod id as the logger's name.
-	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Logger LOGGER = LoggerFactory.getLogger("mtdb");
 
 	@Override
 	public void onInitialize() {
-		LOGGER.warn("MTDB is still in beta! Issues may occur.");
+		LOGGER.warn("Mending tools shouldn't break now.");
 	}
 
-	static boolean shouldBlock(ItemStack itemStack) {
-		return !itemStack.isEmpty() && itemStack.getMaxDamage() - itemStack.getDamage() <= Math.max(2F, itemStack.getMaxDamage() / 100F);
+	public static boolean shouldBlock(ItemStack itemStack) {
+		return hasMending(itemStack) && !itemStack.isEmpty() && isDamagedEnough(itemStack.getMaxDamage(), itemStack.getDamage());
+	}
+
+	public static boolean isDamagedEnough(int maxDamage, int damage) {
+		return maxDamage - damage <= Math.max(2F, maxDamage / 100F);
+	}
+
+	public static boolean hasMending(ItemStack itemStack) {
+		return EnchantmentHelper.getLevel(Enchantments.MENDING, itemStack) > 0;
 	}
 }

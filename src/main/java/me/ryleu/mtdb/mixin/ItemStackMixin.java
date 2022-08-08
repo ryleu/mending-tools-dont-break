@@ -1,5 +1,6 @@
 package me.ryleu.mtdb.mixin;
 
+import me.ryleu.mtdb.MTDB;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -15,7 +16,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import me.ryleu.mtdb.MTDB;
 
 @Mixin(ItemStack.class)
 public abstract class ItemStackMixin {
@@ -50,14 +50,18 @@ public abstract class ItemStackMixin {
     }
 
     private boolean cancelMissingMending(CallbackInfoReturnable cir) {
-        NbtList enchantments = this.getEnchantments();
+        if (hasMendingHack() && !isEmpty() && MTDB.isDamagedEnough(getMaxDamage(), getDamage())) {
+            cir.cancel();
+            return true;
+        }
 
-        if (MTDB.shouldBlock((ItemStack) this)) {
-            for (NbtElement enchantment : enchantments) {
-                if (enchantment.asString().contains("minecraft:mending")) {
-                    cir.cancel();
-                    return true;
-                }
+        return false;
+    }
+
+    private boolean hasMendingHack() {
+        for (NbtElement enchantment : this.getEnchantments()) {
+            if (enchantment.asString().contains("minecraft:mending")) {
+                return true;
             }
         }
 
